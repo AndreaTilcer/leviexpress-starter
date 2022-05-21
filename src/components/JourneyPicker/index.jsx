@@ -5,6 +5,11 @@ import './style.css';
 export const JourneyPicker = ({ onJourneyChange }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
+    fetch(
+      `https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}&toCity=${toCity}&date=${date}`,
+    )
+      .then((response) => response.json())
+      .then((data) => onJourneyChange(data.results));
     console.log(fromCity, toCity, date);
   };
 
@@ -57,7 +62,14 @@ export const JourneyPicker = ({ onJourneyChange }) => {
             </select>
           </label>
           <div className="journey-picker__controls">
-            <button onClick={handleSubmit} className="btn" type="submit">
+            <button
+              onClick={handleSubmit}
+              className="btn"
+              type="submit"
+              disabled={
+                fromCity !== '' && toCity !== '' && date !== '' ? false : true
+              }
+            >
               Vyhledat spoj
             </button>
           </div>
@@ -73,7 +85,7 @@ const CityOptions = ({ cities }) => {
     <>
       <option value="">Vyberte</option>
       {cities.map((city) => (
-        <option value={city.name} key={city.code}>
+        <option value={city.code} key={city.code}>
           {city.name}
         </option>
       ))}
@@ -109,7 +121,7 @@ const DateOptions = ({ dates }) => {
     <>
       <option value="">Vyberte</option>
       {dates.map((date) => (
-        <option value={date.dateCs} key={date.dateBasic}>
+        <option value={date.dateBasic} key={date.dateBasic}>
           {date.dateCs}
         </option>
       ))}
