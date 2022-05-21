@@ -7,12 +7,21 @@ import { Reservation } from '../Reservation';
 
 export const App = () => (
   <>
-    <Header />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/reservation" element={<Reservation />} />
-    </Routes>
-    <Footer />
-    <Outlet />
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/reservation" element={<Reservation />} />
+        <Route
+          path="*"
+          element={
+            <main style={{ padding: '1rem' }}>
+              <p>There's nothing here!</p>
+            </main>
+          }
+        />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   </>
 );
